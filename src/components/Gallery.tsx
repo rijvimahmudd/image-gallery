@@ -22,8 +22,9 @@ import { createPortal } from 'react-dom';
 import generateUuid from '../utils/uuid';
 
 const Gallery = () => {
-	const { img, setImg, setActiveId, activeId, handleCheckboxChange } =
-		useContext(GalleryContext) as options;
+	const { img, setImg, setActiveId, activeId } = useContext(
+		GalleryContext
+	) as options;
 	const [HW, setHW] = useState<{ height: number; width: number }>({
 		height: 0,
 		width: 0,
@@ -109,9 +110,6 @@ const Gallery = () => {
 								key={image.id}
 								{...image}
 								isSelected={image.isSelected}
-								handleCheckboxChange={e => {
-									handleCheckboxChange(e, index);
-								}}
 							></Draggable>
 						);
 					})}

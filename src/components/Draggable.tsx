@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import React from 'react';
-import { options } from '../context/GalleryContext';
+import React, { useContext } from 'react';
+import { GalleryContext, options } from '../context/GalleryContext';
 
 type Props = {
 	id: string;
@@ -9,16 +9,17 @@ type Props = {
 	src: string;
 	desc: string;
 	isSelected: boolean;
-	handleCheckboxChange: (event: React.PointerEvent, index: number) => void;
 };
 const Draggable = (props: Props) => {
+	const { handleCheckboxChange } = useContext(GalleryContext) as options;
+
 	const { id, index, src, desc } = props as {
 		id: string;
 		index: number;
 		src: string;
 		desc: string;
 	};
-	const { isSelected, handleCheckboxChange } = props as unknown as options;
+	const { isSelected } = props as unknown as options;
 	const checkboxListeners = {
 		onPointerDown: (e: React.PointerEvent) => {
 			e.stopPropagation();
