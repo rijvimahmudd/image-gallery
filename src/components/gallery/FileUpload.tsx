@@ -20,9 +20,14 @@ const FileUpload = ({
 					onChange={e => {
 						const file = e.target.files?.[0];
 
-						convertToBase64(file).then(res => {
-							uploadImage(res as string, file?.name as string);
-						});
+						if (file) {
+							convertToBase64(file).then(res => {
+								uploadImage(
+									res as string,
+									file?.name as string
+								);
+							});
+						}
 					}}
 				/>
 				<img src="/images/photo.png" className="w-4 h-auto"></img>
