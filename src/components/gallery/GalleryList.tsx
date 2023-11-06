@@ -1,0 +1,91 @@
+import {
+	DndContext,
+	DragEndEvent,
+	DragOverlay,
+	KeyboardSensor,
+	PointerSensor,
+	TouchSensor,
+	closestCenter,
+	useSensor,
+	useSensors,
+} from '@dnd-kit/core';
+import {
+	SortableContext,
+	arrayMove,
+	rectSortingStrategy,
+	sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+import { useContext } from 'react';
+import { GalleryContext, options } from '../../context/GalleryContext';
+import Draggable from './Draggable';
+import FileUpload from './FileUpload';
+
+const GalleryList = () => {
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(TouchSensor),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		})
+	);
+
+	const { images, activeId, setActiveId, setImages, uploadImage } =
+		useContext(GalleryContext) as unknown as options;
+
+	const handleDragEnd = (event: DragEndEvent) => {
+		const { active, over } = event;
+
+		if (active.id !== over?.id) {
+			setImages(prev => {
+				const activeIndex = prev.findIndex(
+					item => item.id === active.id
+				);
+				const overIndex = prev.findIndex(item => item.id === over?.id);
+				return arrayMove(prev, activeIndex, overIndex);
+			});
+		}
+	};
+	return (
+		<DndContext
+			sensors={sensors}
+			autoScroll={true}
+			onDragStart={event => {
+				setActiveId(event.active.id);
+			}}
+			onDragEnd={handleDragEnd}
+			collisionDetection={closestCenter}
+		>
+			<SortableContext items={images} strategy={rectSortingStrategy}>
+				<div className="grid md:grid-cols-5 auto-rows-fr md:gap-6 gap-3 md:px-11 px-3 py-6 grid-cols-2">
+					{images.map((img, index) => (
+						<Draggable
+							key={img.id}
+							{...img}
+							index={index}
+							isSelected={img.isSelected}
+						></Draggable>
+					))}
+					<FileUpload uploadImage={uploadImage} />
+				</div>
+				<DragOverlay adjustScale={true}>
+					{activeId
+						? images
+								.filter(item => item.id === activeId)
+								.map(image => (
+									<div>
+										<img
+											key={image.id}
+											src={image.src}
+											alt={image.desc}
+											className={`h-full w-full rounded-lg `}
+										/>
+									</div>
+								))
+						: null}
+				</DragOverlay>
+			</SortableContext>
+		</DndContext>
+	);
+};
+
+export default GalleryList;

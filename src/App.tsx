@@ -1,12 +1,14 @@
 import './App.css';
+import PresentationLinks from './PresentationLinks';
+import Gallery from './components/gallery';
 import GalleryProvider from './context/GalleryContext';
-import Canvas from './components/Canvas';
 
 function App() {
 	return (
 		<GalleryProvider>
-			<div className="min-h-screen bg-green-50 flex items-center content-center justify-center">
-				<Canvas></Canvas>
+			<div className="flex md:flex-row flex-col md:items-start md:justify-around justify-center mx-auto w-full my-10 items-center gap-5 md:gap-0">
+				<Gallery />
+				<PresentationLinks></PresentationLinks>
 			</div>
 		</GalleryProvider>
 	);
