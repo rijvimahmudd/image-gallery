@@ -1,15 +1,24 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import React from 'react';
+import { options } from '../context/GalleryContext';
 
-const Draggable = ({
-	id,
-	index,
-	src,
-	desc,
-	isSelected,
-	handleCheckboxChange,
-}) => {
+type Props = {
+	id: string;
+	index: number;
+	src: string;
+	desc: string;
+	isSelected: boolean;
+	handleCheckboxChange: (event: React.PointerEvent, index: number) => void;
+};
+const Draggable = (props: Props) => {
+	const { id, index, src, desc } = props as {
+		id: string;
+		index: number;
+		src: string;
+		desc: string;
+	};
+	const { isSelected, handleCheckboxChange } = props as unknown as options;
 	const checkboxListeners = {
 		onPointerDown: (e: React.PointerEvent) => {
 			e.stopPropagation();
@@ -27,7 +36,6 @@ const Draggable = ({
 		transition,
 		isDragging,
 		listeners,
-		data,
 	} = useSortable({
 		id: id,
 		getNewIndex: () => index,

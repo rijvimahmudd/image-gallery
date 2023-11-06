@@ -3,14 +3,11 @@ import { GalleryContext, options } from '../context/GalleryContext';
 import {
 	DndContext,
 	DragEndEvent,
-	DragMoveEvent,
 	DragOverlay,
 	DragStartEvent,
 	KeyboardSensor,
 	PointerSensor,
 	closestCenter,
-	pointerWithin,
-	rectIntersection,
 	useSensor,
 	useSensors,
 } from '@dnd-kit/core';
@@ -25,13 +22,8 @@ import { createPortal } from 'react-dom';
 import generateUuid from '../utils/uuid';
 
 const Gallery = () => {
-	const {
-		img,
-		setImg,
-		setActiveId,
-		activeId,
-		handleCheckboxChange,
-	}: options = useContext(GalleryContext);
+	const { img, setImg, setActiveId, activeId, handleCheckboxChange } =
+		useContext(GalleryContext) as options;
 	const [HW, setHW] = useState<{ height: number; width: number }>({
 		height: 0,
 		width: 0,
@@ -89,12 +81,12 @@ const Gallery = () => {
 		}
 	};
 
-	const handleDragMove = (event: DragMoveEvent) => {
-		setHW({
-			height: event.over?.rect.height || 0,
-			width: event.over?.rect.width || 0,
-		});
-	};
+	// const handleDragMove = (event: DragMoveEvent) => {
+	// 	setHW({
+	// 		height: event.over?.rect.height || 0,
+	// 		width: event.over?.rect.width || 0,
+	// 	});
+	// };
 	return (
 		<DndContext
 			// onDragMove={handleDragMove}
@@ -110,14 +102,16 @@ const Gallery = () => {
 		>
 			<SortableContext items={img} strategy={rectSortingStrategy}>
 				<div className="grid grid-cols-5 gap-6 justify-items-start w-full h-auto px-12 my-4 auto-rows-min">
-					{img.map((image, index) => {
+					{img?.map((image, index) => {
 						return (
 							<Draggable
 								index={index}
 								key={image.id}
 								{...image}
 								isSelected={image.isSelected}
-								handleCheckboxChange={handleCheckboxChange}
+								handleCheckboxChange={e => {
+									handleCheckboxChange(e, index);
+								}}
 							></Draggable>
 						);
 					})}
@@ -165,7 +159,7 @@ const Gallery = () => {
 					</div>
 				</div>
 				{createPortal(
-					<DragOverlay key={activeId}>
+					<DragOverlay>
 						{activeId
 							? img
 									.filter(item => item.id === activeId)

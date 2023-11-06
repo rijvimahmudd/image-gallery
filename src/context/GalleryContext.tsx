@@ -19,6 +19,17 @@ export const GalleryContext = createContext({
 
 export interface options {
 	img: imageData[];
+	isSelected: boolean;
+	lengthOfItems: number;
+	handleDeleteFiles: () => void;
+	setImg: React.Dispatch<React.SetStateAction<imageData[]>>;
+	activeId: UniqueIdentifier | null;
+	handleCheckboxChange: (
+		e: React.ChangeEvent<HTMLInputElement>,
+		index: number
+	) => void;
+
+	setActiveId: React.Dispatch<React.SetStateAction<UniqueIdentifier | null>>;
 }
 const GalleryProvider = ({ children }: { children: ReactElement }) => {
 	const [activeId, setActiveId] = useState<number | null | UniqueIdentifier>(
