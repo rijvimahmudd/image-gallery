@@ -3,20 +3,14 @@ import { ReactElement, createContext, useState } from 'react';
 import images from '../data/imageList.json';
 import generateUuid from '../utils/uuid';
 
+/** GalleryContext */
+
 interface imageData {
 	src: string;
 	desc: string;
 	id: string;
 	isSelected: boolean;
 }
-export const GalleryContext = createContext({
-	img: {} as imageData[],
-	isSelected: false,
-	lengthOfItems: 0,
-	// setImg: () => {},
-	handleDeleteFiles: () => {},
-});
-
 export interface options {
 	img: imageData[];
 	isSelected: boolean;
@@ -31,12 +25,28 @@ export interface options {
 
 	setActiveId: React.Dispatch<React.SetStateAction<UniqueIdentifier | null>>;
 }
+
+/** creating a context */
+export const GalleryContext = createContext({
+	img: {} as imageData[],
+	isSelected: false,
+	lengthOfItems: 0,
+	handleDeleteFiles: () => {},
+});
+
+/** creating the provider for the context and passing the children to it as props to be rendered in the parent */
 const GalleryProvider = ({ children }: { children: ReactElement }) => {
+	/** initialize the states */
+
+	/**  activeId is the id of the image that is currently being dragged */
 	const [activeId, setActiveId] = useState<number | null | UniqueIdentifier>(
 		null
 	);
 
-	const [selectedItems, setSelectedItems] = useState<number[]>([]);
+	/** initialize images with states
+	 * img is the array of images
+	 * here we are processing the properties of the images and generate id and other properties dynamically
+	 */
 	const [img, setImg] = useState<imageData[]>(
 		images.map(image => {
 			return {
@@ -46,7 +56,10 @@ const GalleryProvider = ({ children }: { children: ReactElement }) => {
 			};
 		})
 	);
+	/** it is used to store the ids of the images that are selected via checkbox */
+	const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
+	/** it is used to delete the images which are selected via checkbox */
 	const handleDeleteFiles = () => {
 		setSelectedItems([]);
 		setImg(prev => {
@@ -56,6 +69,7 @@ const GalleryProvider = ({ children }: { children: ReactElement }) => {
 		});
 	};
 
+	/** it is used to handle the checkbox change */
 	const handleCheckboxChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number
@@ -70,7 +84,7 @@ const GalleryProvider = ({ children }: { children: ReactElement }) => {
 		}
 		setImg(updatedImg); // Update the state with the modified image
 	};
-	// const resetImg = cb => {
+	// const resetImg = (cb: (prev: imageData[]) => unknown) => {
 	// 	setImg(prev => cb(prev));
 	// };
 	const options = {

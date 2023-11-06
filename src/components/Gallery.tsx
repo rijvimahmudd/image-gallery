@@ -18,7 +18,6 @@ import {
 	sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import Draggable from './Draggable';
-import { createPortal } from 'react-dom';
 import generateUuid from '../utils/uuid';
 
 const Gallery = () => {
@@ -64,13 +63,11 @@ const Gallery = () => {
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 		console.log('event ->>', event);
-		console.log('index 0 ->>', img[0]);
-
+		// console.log('index 0 ->>', img[0]);
 		setHW({
 			height: event.over?.rect.height || 0,
 			width: event.over?.rect.width || 0,
 		});
-
 		if (active.id !== over?.id) {
 			setImg(prev => {
 				const activeIndex = prev.findIndex(
@@ -96,13 +93,13 @@ const Gallery = () => {
 			// 	setActiveId(null);
 			// }}
 			onDragStart={handleDragStart}
-			onDragEnd={() => setActiveId(null)}
-			onDragOver={handleDragEnd}
+			// onDragEnd={() => setActiveId(null)}
+			onDragEnd={handleDragEnd}
 			sensors={sensors}
 			collisionDetection={closestCenter}
 		>
 			<SortableContext items={img} strategy={rectSortingStrategy}>
-				<div className="grid grid-cols-5 gap-6 justify-items-start w-full h-auto px-12 my-4 auto-rows-min">
+				<div className="grid grid-cols-[repeat(5,_minmax(160px,1fr))] gap-6 justify-items-start w-full h-auto px-12 my-4 auto-rows-[minmax(160px,1fr)]">
 					{img?.map((image, index) => {
 						return (
 							<Draggable
@@ -113,6 +110,24 @@ const Gallery = () => {
 							></Draggable>
 						);
 					})}
+
+					<DragOverlay adjustScale>
+						{activeId
+							? img
+									.filter(item => item.id === activeId)
+									.map(image => (
+										<div>
+											<img
+												key={image.id}
+												src={image.src}
+												alt={image.desc}
+												className={`h-auto w-full rounded-lg `}
+											/>
+										</div>
+									))
+							: null}
+					</DragOverlay>
+
 					<div className="w-full rounded-lg border-2 border-dashed flex items-center justify-center">
 						<label
 							htmlFor="upload_image"
@@ -156,29 +171,6 @@ const Gallery = () => {
 						</label>
 					</div>
 				</div>
-				{createPortal(
-					<DragOverlay>
-						{activeId
-							? img
-									.filter(item => item.id === activeId)
-									.map(image => (
-										<div className="">
-											<img
-												key={image.id}
-												src={image.src}
-												alt={image.desc}
-												// style={{
-												// 	height: HW?.height || 0,
-												// 	width: HW?.width || 0,
-												// }}
-												className={`w-full h-full object-cover`}
-											/>
-										</div>
-									))
-							: null}
-					</DragOverlay>,
-					document.body
-				)}
 			</SortableContext>
 		</DndContext>
 	);

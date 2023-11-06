@@ -47,6 +47,7 @@ const Draggable = (props: Props) => {
 		transform: CSS.Transform.toString(transform),
 		transition,
 		zIndex: isDragging ? 100 : 0,
+		transformOrigin: '0 0'
 	};
 
 	return (
