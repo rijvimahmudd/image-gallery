@@ -149,7 +149,7 @@ const Gallery = () => {
 								}}
 							/>
 							<img
-								src="../src/assets/images/photo.png"
+								src="/images/photo.png"
 								className="w-4 h-auto"
 							></img>
 							Add Images
