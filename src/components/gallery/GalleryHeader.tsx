@@ -1,9 +1,10 @@
 import { useContext } from 'react';
-import { GalleryContext } from '../../context/GalleryContext';
+import { GalleryContext, options } from '../../context/GalleryContext';
 
 const GalleryHeader = () => {
-	const { isSelected, lengthOfItems, handleDelete } =
-		useContext(GalleryContext);
+	const { isSelected, lengthOfItems, handleDelete } = useContext(
+		GalleryContext
+	) as options;
 	return (
 		<div className="header h-14  w-full rounded-tr-lg rounded-t-lg border-b flex items-center justify-between px-12">
 			{isSelected ? (

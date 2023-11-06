@@ -14,7 +14,7 @@ export interface options {
 	images: imageData[];
 	isSelected: boolean;
 	lengthOfItems: number;
-	handleDeleteFiles: () => void;
+	handleDelete: () => void;
 	setImages: React.Dispatch<React.SetStateAction<imageData[]>>;
 	activeId: UniqueIdentifier | null;
 	handleCheckbox: (
