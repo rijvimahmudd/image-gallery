@@ -17,12 +17,12 @@ export interface options {
 	handleDelete: () => void;
 	setImages: React.Dispatch<React.SetStateAction<imageData[]>>;
 	activeId: UniqueIdentifier | null;
-	handleCheckbox: (
+	uploadImage: (image: string, name: string) => void;
+	setActiveId: React.Dispatch<React.SetStateAction<UniqueIdentifier | null>>;
+	handleCheckBox: (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number
 	) => void;
-	uploadImage: (image: string, name: string) => void;
-	setActiveId: React.Dispatch<React.SetStateAction<UniqueIdentifier | null>>;
 }
 
 const options = {
@@ -51,6 +51,8 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number
 	) => {
+		console.log('called');
+
 		const updatedImg = [...images]; // Create a copy of the img state
 		updatedImg[index].isSelected = !updatedImg[index].isSelected; // Toggle isSelected
 		if (e.target.checked) {
@@ -89,7 +91,7 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		handleDelete,
 		isSelected: selectedItems > 0,
 		lengthOfItems: selectedItems,
-		handleCheckBox,
+		handleCheckBox: handleCheckBox,
 		uploadImage,
 	};
 	return (

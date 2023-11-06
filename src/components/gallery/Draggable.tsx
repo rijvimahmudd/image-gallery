@@ -17,7 +17,9 @@ interface DraggableProps {
 const Draggable = (props: DraggableProps) => {
 	const { id, src, desc, isSelected } = props as unknown as imageData;
 	const index = props.index as number;
-	const { handleCheckbox } = useContext(GalleryContext) as options;
+	const { handleCheckBox } = useContext(GalleryContext) as options;
+	console.log(handleCheckBox);
+
 	const {
 		attributes,
 		setNodeRef,
@@ -85,7 +87,7 @@ const Draggable = (props: DraggableProps) => {
 												checked:visible`
 												}
 												z-10 `}
-				onChange={e => handleCheckbox(e, index)}
+				onChange={e => handleCheckBox(e, index)}
 				{...checkboxListeners}
 			/>
 		</div>
