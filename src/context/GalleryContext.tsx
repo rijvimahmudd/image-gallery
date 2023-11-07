@@ -51,8 +51,6 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number
 	) => {
-		console.log('called');
-
 		const updatedImg = [...images]; // Create a copy of the img state
 		updatedImg[index].isSelected = !updatedImg[index].isSelected; // Toggle isSelected
 		if (e.target.checked) {

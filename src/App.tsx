@@ -1,5 +1,5 @@
 import './App.css';
-import PresentationLinks from './PresentationLinks';
+import PresentationLinks from './components/useful-links/PresentationLinks';
 import Gallery from './components/gallery';
 import GalleryProvider from './context/GalleryContext';
 

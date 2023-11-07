@@ -18,7 +18,6 @@ const Draggable = (props: DraggableProps) => {
 	const { id, src, desc, isSelected } = props as unknown as imageData;
 	const index = props.index as number;
 	const { handleCheckBox } = useContext(GalleryContext) as options;
-	console.log(handleCheckBox);
 
 	const {
 		attributes,
