@@ -14,18 +14,6 @@ Welcome to the **Draggable Image Gallery**, an elegant, responsive, and sortable
 
 You can experience the functionality of our Draggable Image Gallery by either visiting our [website](https://image-gallery-zxgc.vercel.app/) directly or by watching a demo video [here](https://www.loom.com/share/c3440dee956a4a17859061eb23f964b2).
 
-### Desktop Mode
-
-![Desktop Mode](image.png)
-
-### Tablet Mode
-
-![Tablet Mode](image-1.png)
-
-### Mobile Mode
-
-![Mobile Mode](image-3.png)
-
 #### in desktop mode
 
 ![IN DESKTOP](image.png)
