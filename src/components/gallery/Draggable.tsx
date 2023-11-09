@@ -46,7 +46,7 @@ const Draggable = (props: DraggableProps) => {
 			ref={setNodeRef}
 			{...attributes}
 			{...listeners}
-			className={`border ${
+			className={`border-[1.5px] ${
 				index === 0 && 'col-span-2 row-span-2'
 			} w-full rounded-lg h-auto md:h-full cursor-pointer group/item hover:bg-slate-100 relative ${
 				isSelected

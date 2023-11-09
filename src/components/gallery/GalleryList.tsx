@@ -78,7 +78,7 @@ const GalleryList = () => {
 											key={image.id}
 											src={image.src}
 											alt={image.desc}
-											className={`h-full w-full rounded-lg`}
+											className={`h-full w-full rounded-lg bg-white border-[1.5px]`}
 										/>
 									</div>
 								))
