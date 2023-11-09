@@ -47,8 +47,9 @@ const Draggable = (props: DraggableProps) => {
 			{...attributes}
 			{...listeners}
 			className={`border-[1.5px] bg-gray-100 ${
-				index === 0 && 'col-span-2 row-span-2'
-			} w-full rounded-lg h-auto md:h-full cursor-pointer group/item hover:bg-slate-100 relative ${
+				index === 0 &&
+				'col-span-2 row-span-2 min-h-[280px] md:min-h-[400px]'
+			} w-full h-auto rounded-lg  md:h-full cursor-pointer group/item hover:bg-slate-100 relative ${
 				isSelected
 					? ' '
 					: isDragging

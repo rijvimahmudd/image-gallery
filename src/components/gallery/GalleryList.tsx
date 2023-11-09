@@ -30,14 +30,16 @@ const GalleryList = () => {
 		})
 	);
 
-	const { images, activeId, setActiveId, setImages, handleChange } =
+	const { images, activeId, setActiveId, updateImagesList, handleChange } =
 		useContext(GalleryContext) as unknown as options;
+
+	if (!images) return null;
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 
 		if (active.id !== over?.id) {
-			setImages(prev => {
+			updateImagesList(prev => {
 				const activeIndex = prev.findIndex(
 					item => item.id === active.id
 				);

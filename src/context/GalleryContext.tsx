@@ -16,7 +16,6 @@ export interface options {
 	isSelected: boolean;
 	lengthOfItems: number;
 	handleDelete: () => void;
-	setImages: React.Dispatch<React.SetStateAction<imageData[]>>;
 	activeId: UniqueIdentifier | null;
 	uploadImage: (files: File[]) => void;
 	setActiveId: React.Dispatch<React.SetStateAction<UniqueIdentifier | null>>;
@@ -25,6 +24,7 @@ export interface options {
 		index: number
 	) => void;
 	handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	updateImagesList: (fn: (prev: imageData[]) => imageData[]) => void;
 }
 
 const options = {
@@ -39,6 +39,7 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 	const [images, setImages] = useState(
 		imgs.map(img => ({ ...img, id: generateUuid(), isSelected: false }))
 	);
+
 	/** initialize states */
 	const [activeId, setActiveId] = useState<number | null | UniqueIdentifier>(
 		null
@@ -73,6 +74,7 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		});
 	};
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		images;
 		e.preventDefault();
 		const files = [...(e.target.files as FileList)];
 
@@ -99,17 +101,21 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 			}
 		}
 	};
-	// setImages(prev => [...prev, newImg]);
+
+	const updateImagesList = (cb: (prev: imageData[]) => imageData[]) => {
+		setImages(prev => cb(prev));
+	};
+
 	const options = {
 		images,
 		activeId: activeId as unknown as UniqueIdentifier,
 		setActiveId,
-		setImages,
 		handleDelete,
 		isSelected: selectedItems > 0,
 		lengthOfItems: selectedItems,
-		handleCheckBox: handleCheckBox,
+		handleCheckBox,
 		handleChange,
+		updateImagesList,
 	};
 	return (
 		<GalleryContext.Provider value={options}>
