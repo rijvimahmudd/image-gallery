@@ -16,15 +16,15 @@ You can experience the functionality of our Draggable Image Gallery by either vi
 
 #### in desktop mode
 
-![IN DESKTOP](image.png)
+![IN DESKTOP](./public/readme-images/image.png)
 
 #### in tablet mode
 
-![IN TABLET](image-1.png)
+![IN TABLET](./public/readme-images/image-1.png)
 
 #### in mobile device
 
-![IN MOBILE](image-3.png)
+![IN MOBILE](./public/readme-images/image-3.png)
 
 ## Installation
 
