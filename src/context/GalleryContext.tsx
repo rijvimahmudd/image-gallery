@@ -80,7 +80,7 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		};
 		setImages(prev => [...prev, newImg]);
 	};
-
+	// setImages(prev => [...prev, newImg]);
 	const options = {
 		images,
 		activeId: activeId as unknown as UniqueIdentifier,

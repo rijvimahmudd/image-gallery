@@ -16,18 +16,20 @@ const FileUpload = ({
 					type="file"
 					name="upload_image"
 					id="upload_image"
-					className="hidden"
+					className="hidden w-full h-full"
 					onChange={e => {
+						e.preventDefault();
 						const file = e.target.files?.[0];
-
 						if (file) {
-							convertToBase64(file).then(res => {
+							convertToBase64(file)?.then(res => {
 								uploadImage(
 									res as string,
 									file?.name as string
 								);
 							});
 						}
+						e.target.value = '';
+						e.target.files = null;
 					}}
 				/>
 				<img src="/images/photo.png" className="w-4 h-auto"></img>

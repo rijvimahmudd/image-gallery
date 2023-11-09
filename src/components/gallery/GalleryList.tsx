@@ -19,6 +19,7 @@ import { useContext } from 'react';
 import { GalleryContext, options } from '../../context/GalleryContext';
 import Draggable from './Draggable';
 import FileUpload from './FileUpload';
+import Grid from './Grid';
 
 const GalleryList = () => {
 	const sensors = useSensors(
@@ -56,7 +57,7 @@ const GalleryList = () => {
 			collisionDetection={closestCenter}
 		>
 			<SortableContext items={images} strategy={rectSortingStrategy}>
-				<div className="grid md:grid-cols-5 auto-rows-fr md:gap-6 gap-3 md:px-11 px-3 py-6 grid-cols-2">
+				<Grid>
 					{images.map((img, index) => (
 						<Draggable
 							key={img.id}
@@ -66,7 +67,7 @@ const GalleryList = () => {
 						></Draggable>
 					))}
 					<FileUpload uploadImage={uploadImage} />
-				</div>
+				</Grid>
 				<DragOverlay adjustScale={true}>
 					{activeId
 						? images
