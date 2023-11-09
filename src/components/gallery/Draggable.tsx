@@ -46,7 +46,7 @@ const Draggable = (props: DraggableProps) => {
 			ref={setNodeRef}
 			{...attributes}
 			{...listeners}
-			className={`border-[1.5px] bg-white ${
+			className={`border-[1.5px] bg-gray-100 ${
 				index === 0 && 'col-span-2 row-span-2'
 			} w-full rounded-lg h-auto md:h-full cursor-pointer group/item hover:bg-slate-100 relative ${
 				isSelected
@@ -65,7 +65,7 @@ const Draggable = (props: DraggableProps) => {
 			<img
 				src={src}
 				alt={desc}
-				className={`w-full h-full rounded-lg object-scale-down ${
+				className={`w-full h-full rounded-lg bg-white object-scale-down ${
 					isDragging
 						? 'opacity-0'
 						: isSelected
