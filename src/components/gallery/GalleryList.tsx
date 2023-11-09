@@ -30,7 +30,7 @@ const GalleryList = () => {
 		})
 	);
 
-	const { images, activeId, setActiveId, setImages, uploadImage } =
+	const { images, activeId, setActiveId, setImages, handleChange } =
 		useContext(GalleryContext) as unknown as options;
 
 	const handleDragEnd = (event: DragEndEvent) => {
@@ -66,7 +66,7 @@ const GalleryList = () => {
 							isSelected={img.isSelected}
 						></Draggable>
 					))}
-					<FileUpload uploadImage={uploadImage} />
+					<FileUpload handleChange={handleChange} />
 				</Grid>
 				<DragOverlay adjustScale={true}>
 					{activeId

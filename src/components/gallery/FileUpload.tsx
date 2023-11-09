@@ -1,7 +1,7 @@
 const FileUpload = ({
-	uploadImage,
+	handleChange,
 }: {
-	uploadImage: (files: File[]) => void;
+	handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
 	return (
 		<div className="w-full rounded-lg border-2 border-dashed flex items-center justify-center">
@@ -16,16 +16,7 @@ const FileUpload = ({
 					id="upload_image"
 					className="hidden w-full h-full"
 					multiple
-					onChange={e => {
-						e.preventDefault();
-						const files = [...(e.target.files as FileList)];
-
-						if (files && files.length > 0) {
-							uploadImage(files);
-						}
-						e.target.value = '';
-						e.target.files = null;
-					}}
+					onChange={handleChange}
 				/>
 				<img src="/images/photo.png" className="w-4 h-auto"></img>
 				Add Images

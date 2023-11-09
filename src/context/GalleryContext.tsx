@@ -24,6 +24,7 @@ export interface options {
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number
 	) => void;
+	handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const options = {
@@ -71,7 +72,16 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 			});
 		});
 	};
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		e.preventDefault();
+		const files = [...(e.target.files as FileList)];
 
+		if (files && files.length > 0) {
+			uploadImage(files);
+		}
+		e.target.value = '';
+		e.target.files = null;
+	};
 	const uploadImage = (files: File[]): void => {
 		const len = files.length;
 
@@ -99,7 +109,7 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		isSelected: selectedItems > 0,
 		lengthOfItems: selectedItems,
 		handleCheckBox: handleCheckBox,
-		uploadImage,
+		handleChange,
 	};
 	return (
 		<GalleryContext.Provider value={options}>
