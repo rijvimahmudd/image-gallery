@@ -2,6 +2,7 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 import { createContext, useState } from 'react';
 import imgs from '../data/imageList.json';
 import generateUuid from '../utils/uuid';
+import convertToBase64 from '../utils/imgTo64';
 
 export interface imageData {
 	src: string;
@@ -17,7 +18,7 @@ export interface options {
 	handleDelete: () => void;
 	setImages: React.Dispatch<React.SetStateAction<imageData[]>>;
 	activeId: UniqueIdentifier | null;
-	uploadImage: (image: string, name: string) => void;
+	uploadImage: (files: File[]) => void;
 	setActiveId: React.Dispatch<React.SetStateAction<UniqueIdentifier | null>>;
 	handleCheckBox: (
 		e: React.ChangeEvent<HTMLInputElement>,
@@ -71,14 +72,22 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		});
 	};
 
-	const uploadImage = (img: string, desc: string) => {
-		const newImg = {
-			id: generateUuid(),
-			src: img,
-			desc: desc,
-			isSelected: false,
-		};
-		setImages(prev => [...prev, newImg]);
+	const uploadImage = (files: File[]): void => {
+		const len = files.length;
+
+		if (files && len > 0) {
+			for (let i = 0; i < len; i++) {
+				convertToBase64(files[i])?.then(res => {
+					const newImg = {
+						id: generateUuid(),
+						src: res as string,
+						desc: files[i].name,
+						isSelected: false,
+					};
+					setImages(prev => [...prev, newImg]);
+				});
+			}
+		}
 	};
 	// setImages(prev => [...prev, newImg]);
 	const options = {

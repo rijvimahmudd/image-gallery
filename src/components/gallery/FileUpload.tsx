@@ -1,9 +1,7 @@
-import convertToBase64 from '../../utils/imgTo64';
-
 const FileUpload = ({
 	uploadImage,
 }: {
-	uploadImage: (image: string, name: string) => void;
+	uploadImage: (files: File[]) => void;
 }) => {
 	return (
 		<div className="w-full rounded-lg border-2 border-dashed flex items-center justify-center">
@@ -17,16 +15,13 @@ const FileUpload = ({
 					name="upload_image"
 					id="upload_image"
 					className="hidden w-full h-full"
+					multiple
 					onChange={e => {
 						e.preventDefault();
-						const file = e.target.files?.[0];
-						if (file) {
-							convertToBase64(file)?.then(res => {
-								uploadImage(
-									res as string,
-									file?.name as string
-								);
-							});
+						const files = [...(e.target.files as FileList)];
+
+						if (files && files.length > 0) {
+							uploadImage(files);
 						}
 						e.target.value = '';
 						e.target.files = null;
