@@ -66,7 +66,7 @@ const Draggable = (props: DraggableProps) => {
 			<img
 				src={src}
 				alt={desc}
-				className={`w-full h-full rounded-lg bg-white object-scale-down ${
+				className={`w-full h-full rounded-lg bg-white object-scale-down md:object-fill ${
 					isDragging
 						? 'opacity-0'
 						: isSelected

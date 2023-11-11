@@ -75,7 +75,7 @@ const GalleryList = () => {
 						? images
 								.filter(item => item.id === activeId)
 								.map(image => (
-									<div className="bg-white">
+									<div className="bg-white rounded-lg">
 										<img
 											key={image.id}
 											src={image.src}
