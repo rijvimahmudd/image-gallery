@@ -49,7 +49,7 @@ const Draggable = (props: DraggableProps) => {
 			className={`border-[1.5px] bg-gray-100 ${
 				index === 0 &&
 				'col-span-2 row-span-2 min-h-[280px] md:min-h-[400px]'
-			} w-full h-auto rounded-lg  md:h-full cursor-pointer group/item hover:bg-slate-100 relative ${
+			} w-full h-full rounded-lg  md:h-full cursor-pointer group/item hover:bg-slate-100 relative ${
 				isSelected
 					? ' '
 					: isDragging
@@ -66,7 +66,7 @@ const Draggable = (props: DraggableProps) => {
 			<img
 				src={src}
 				alt={desc}
-				className={`w-full h-full rounded-lg bg-white object-scale-down md:object-fill ${
+				className={`w-full h-full rounded-lg bg-white object-scale-down md:object-cover ${
 					isDragging
 						? 'opacity-0'
 						: isSelected

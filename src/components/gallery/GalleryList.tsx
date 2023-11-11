@@ -75,14 +75,12 @@ const GalleryList = () => {
 						? images
 								.filter(item => item.id === activeId)
 								.map(image => (
-									<div className="bg-white rounded-lg">
-										<img
-											key={image.id}
-											src={image.src}
-											alt={image.desc}
-											className={`h-full w-full  rounded-lg  border-[1.5px]`}
-										/>
-									</div>
+									<img
+										key={image.id}
+										src={image.src}
+										alt={image.desc}
+										className={`h-full w-full rounded-lg border-[1.5px] bg-white`}
+									/>
 								))
 						: null}
 				</DragOverlay>
