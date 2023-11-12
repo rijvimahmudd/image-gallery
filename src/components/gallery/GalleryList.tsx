@@ -16,10 +16,11 @@ import {
 	sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import { useContext } from 'react';
-import { GalleryContext, options } from '../../context/GalleryContext';
+import { GalleryContext, key, options } from '../../context/GalleryContext';
 import Draggable from './Draggable';
 import FileUpload from './FileUpload';
 import Grid from './Grid';
+import storage from '../../utils/Storage';
 
 const GalleryList = () => {
 	const sensors = useSensors(
@@ -44,7 +45,9 @@ const GalleryList = () => {
 					item => item.id === active.id
 				);
 				const overIndex = prev.findIndex(item => item.id === over?.id);
-				return arrayMove(prev, activeIndex, overIndex);
+				const newImgs = arrayMove(prev, activeIndex, overIndex);
+				storage.save(key, newImgs);
+				return newImgs;
 			});
 		}
 	};
@@ -60,15 +63,27 @@ const GalleryList = () => {
 		>
 			<SortableContext items={images} strategy={rectSortingStrategy}>
 				<Grid>
+					{images.length <= 0 &&
+						Array(12)
+							.fill(null)
+							.map((_, index) => (
+								<div
+									key={index}
+									className="flex min-h-[170px] h-full w-full items-center justify-center border-2 rounded-lg bg-slate-200 animate-pulse"
+								/>
+							))}
 					{images.map((img, index) => (
 						<Draggable
 							key={img.id}
 							{...img}
 							index={index}
 							isSelected={img.isSelected}
-						></Draggable>
+						/>
 					))}
-					<FileUpload handleChange={handleChange} />
+
+					{images.length > 0 && (
+						<FileUpload handleChange={handleChange} />
+					)}
 				</Grid>
 				<DragOverlay adjustScale={true}>
 					{activeId
@@ -79,7 +94,7 @@ const GalleryList = () => {
 										key={image.id}
 										src={image.src}
 										alt={image.desc}
-										className={`h-full w-full rounded-lg border-[1.5px] bg-white`}
+										className={`h-full w-full rounded-lg border-[1.5px] bg-white object-cover`}
 									/>
 								))
 						: null}

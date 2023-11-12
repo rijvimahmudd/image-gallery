@@ -1,8 +1,9 @@
 import { UniqueIdentifier } from '@dnd-kit/core';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import imgs from '../data/imageList.json';
 import generateUuid from '../utils/uuid';
 import convertToBase64 from '../utils/imgTo64';
+import storage from '../utils/Storage';
 
 export interface imageData {
 	src: string;
@@ -33,12 +34,28 @@ const options = {
 	lengthOfItems: 0,
 };
 export const GalleryContext = createContext(options);
+export const key = 'gallery';
 
 const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 	/** load and make the image object */
-	const [images, setImages] = useState(
-		imgs.map(img => ({ ...img, id: generateUuid(), isSelected: false }))
-	);
+	const [images, setImages] = useState<imageData[]>([]);
+
+	useEffect(() => {
+		console.log('called from the initial useEffect');
+
+		const data = storage.get(key);
+		if (data) {
+			setImages(data);
+		} else {
+			setImages(
+				imgs.map(img => ({
+					...img,
+					id: generateUuid(),
+					isSelected: false,
+				}))
+			);
+		}
+	}, []);
 
 	/** initialize states */
 	const [activeId, setActiveId] = useState<number | null | UniqueIdentifier>(
@@ -68,9 +85,12 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 	const handleDelete = () => {
 		setSelectedItems(0);
 		setImages(prev => {
-			return prev.filter(image => {
+			const newImgs = prev.filter(image => {
 				return image.isSelected === false;
 			});
+
+			storage.save(key, newImgs);
+			return newImgs;
 		});
 	};
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,17 +108,35 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		const len = files.length;
 
 		if (files && len > 0) {
-			for (let i = 0; i < len; i++) {
-				convertToBase64(files[i])?.then(res => {
-					const newImg = {
+			const promises = files.map(file => {
+				return convertToBase64(file)?.then(res => {
+					return {
 						id: generateUuid(),
 						src: res as string,
-						desc: files[i].name,
+						desc: file.name,
 						isSelected: false,
 					};
-					setImages(prev => [...prev, newImg]);
 				});
-			}
+			});
+
+			Promise.all(promises)
+				.then(newImages => {
+					if (newImages) {
+						setImages(prevImages => [
+							...prevImages,
+							...(newImages as imageData[]),
+						]);
+					}
+
+					// Save all new images to storage
+					storage.save(key, [
+						...images,
+						...(newImages as imageData[]),
+					]);
+				})
+				.catch(error => {
+					console.error('Error converting images to base64:', error);
+				});
 		}
 	};
 

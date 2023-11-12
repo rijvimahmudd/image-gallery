@@ -4,11 +4,12 @@ Welcome to the **Draggable Image Gallery**, an elegant, responsive, and sortable
 
 ## Features
 
--   Drag and customize your image gallery.
--   upload single or multiple picture on gallery
--   responsive in all devices.
--   select the images
--   delete the images.
+-   Drag and customize your image gallery as want.
+-   Upload single or multiple picture on gallery.
+-   Responsive in all devices.
+-   Select the images
+-   Delete the images.
+-   Persist the customized gallery.
 
 ## Demo
 
