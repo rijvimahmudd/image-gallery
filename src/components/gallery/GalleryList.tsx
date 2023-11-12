@@ -1,63 +1,35 @@
-import {
-	DndContext,
-	DragEndEvent,
-	DragOverlay,
-	KeyboardSensor,
-	PointerSensor,
-	TouchSensor,
-	closestCenter,
-	useSensor,
-	useSensors,
-} from '@dnd-kit/core';
-import {
-	SortableContext,
-	arrayMove,
-	rectSortingStrategy,
-	sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
 import { useContext } from 'react';
-import { GalleryContext, key, options } from '../../context/GalleryContext';
+import { GalleryContext, options } from '../../context/GalleryContext';
 import Draggable from './Draggable';
 import FileUpload from './FileUpload';
 import Grid from './Grid';
-import storage from '../../utils/Storage';
+
+import Photo from '../photo';
+import useDnd from '../../hooks/useDnd';
 
 const GalleryList = () => {
-	const sensors = useSensors(
-		useSensor(PointerSensor),
-		useSensor(TouchSensor),
-		useSensor(KeyboardSensor, {
-			coordinateGetter: sortableKeyboardCoordinates,
-		})
-	);
+	const {
+		DndContext,
+		sensors,
+		handleDragStart,
+		handleDragEnd,
+		closestCenter,
+		rectSortingStrategy,
+		SortableContext,
+		DragOverlay,
+	} = useDnd();
 
-	const { images, activeId, setActiveId, updateImagesList, handleChange } =
-		useContext(GalleryContext) as unknown as options;
+	const { images, activeId, handleChange } = useContext(
+		GalleryContext
+	) as unknown as options;
 
 	if (!images) return null;
 
-	const handleDragEnd = (event: DragEndEvent) => {
-		const { active, over } = event;
-
-		if (active.id !== over?.id) {
-			updateImagesList(prev => {
-				const activeIndex = prev.findIndex(
-					item => item.id === active.id
-				);
-				const overIndex = prev.findIndex(item => item.id === over?.id);
-				const newImgs = arrayMove(prev, activeIndex, overIndex);
-				storage.save(key, newImgs);
-				return newImgs;
-			});
-		}
-	};
 	return (
 		<DndContext
 			sensors={sensors}
 			autoScroll={true}
-			onDragStart={event => {
-				setActiveId(event.active.id);
-			}}
+			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
 			collisionDetection={closestCenter}
 		>
@@ -90,11 +62,10 @@ const GalleryList = () => {
 						? images
 								.filter(item => item.id === activeId)
 								.map(image => (
-									<img
+									<Photo
 										key={image.id}
 										src={image.src}
 										alt={image.desc}
-										className={`h-full w-full rounded-lg border-[1.5px] bg-white object-cover`}
 									/>
 								))
 						: null}

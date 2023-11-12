@@ -6,6 +6,7 @@ import {
 	imageData,
 	options,
 } from '../../context/GalleryContext';
+import Photo from '../photo';
 interface DraggableProps {
 	id: string;
 	src: string;
@@ -63,10 +64,10 @@ const Draggable = (props: DraggableProps) => {
 				transformOrigin: '0 0',
 			}}
 		>
-			<img
+			<Photo
 				src={src}
 				alt={desc}
-				className={`w-full h-full rounded-lg bg-white object-scale-down md:object-cover ${
+				className={`object-scale-down md:object-cover ${
 					isDragging
 						? 'opacity-0'
 						: isSelected
@@ -77,7 +78,6 @@ const Draggable = (props: DraggableProps) => {
 			<input
 				type="checkbox"
 				name="checkbox"
-				id=""
 				className={`absolute top-5 left-5 accent-blue-700 outline-none cursor-pointer 
 												border-none
 												h-6 w-6 invisible group/edit ${
