@@ -5,7 +5,7 @@ const PresentationLinks = () => {
 				<p className="text-sm font-semibold">Useful links</p>
 				<a
 					className="w-8 h-auto"
-					href="https://www.loom.com/share/c3440dee956a4a17859061eb23f964b2"
+					href="https://www.loom.com/share/41830153196e47f1b5b6705238aaaa0e"
 					target={'_blank'}
 				>
 					<img
