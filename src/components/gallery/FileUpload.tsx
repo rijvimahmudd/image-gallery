@@ -15,6 +15,7 @@ const FileUpload = ({
 				<input
 					type="file"
 					name="uploadImage"
+					id="uploadImage"
 					className="hidden w-full h-full"
 					multiple
 					onChange={handleChange}
