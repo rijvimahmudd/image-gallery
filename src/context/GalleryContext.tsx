@@ -41,8 +41,6 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 	const [images, setImages] = useState<imageData[]>([]);
 
 	useEffect(() => {
-		console.log('called from the initial useEffect');
-
 		const data = storage.get(key);
 		if (data) {
 			setImages(data);
@@ -105,8 +103,6 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		e.target.files = null;
 	};
 	const uploadImage = (files: File[]): void => {
-		console.log('uploading images');
-
 		const len = files.length;
 
 		if (files && len > 0) {
