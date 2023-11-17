@@ -105,6 +105,8 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		e.target.files = null;
 	};
 	const uploadImage = (files: File[]): void => {
+		console.log('uploading images');
+
 		const len = files.length;
 
 		if (files && len > 0) {
@@ -152,7 +154,7 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		isSelected: selectedItems > 0,
 		lengthOfItems: selectedItems,
 		handleCheckBox,
-		handleChange,
+		handleChange: handleChange,
 		updateImagesList,
 	};
 	return (

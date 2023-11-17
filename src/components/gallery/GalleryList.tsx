@@ -23,8 +23,6 @@ const GalleryList = () => {
 		GalleryContext
 	) as unknown as options;
 
-	if (!images) return null;
-
 	return (
 		<DndContext
 			sensors={sensors}
