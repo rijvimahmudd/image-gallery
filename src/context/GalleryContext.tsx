@@ -150,7 +150,7 @@ const GalleryProvider = ({ children }: { children: React.ReactNode }) => {
 		isSelected: selectedItems > 0,
 		lengthOfItems: selectedItems,
 		handleCheckBox,
-		handleChange: handleChange,
+		handleChange,
 		updateImagesList,
 	};
 	return (

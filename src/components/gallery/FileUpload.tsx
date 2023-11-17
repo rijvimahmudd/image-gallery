@@ -14,7 +14,6 @@ const FileUpload = ({
 			>
 				<input
 					type="file"
-					id="uploadImage"
 					name="uploadImage"
 					className="hidden w-full h-full"
 					multiple
